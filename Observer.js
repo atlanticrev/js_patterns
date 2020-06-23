@@ -97,12 +97,3 @@ Pubsub.publish('dataUpdated', {
 });
 
 Pubsub.unsubscribe(dataSubscription);
-
-// function getCurrentTime () {
-//     const date = new Date(),
-//         m = date.getMonth() + 1,
-//         d = date.getDate(),
-//         y = date.getFullYear(),
-//         t = date.toLocaleTimeString().toLowerCase();
-//     return (m + '/' + d + '/' + y + ' ' + t);
-// }
