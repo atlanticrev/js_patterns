@@ -78,7 +78,7 @@ const grid = {
 const gridUpdate = function(topics, data){
     grid.addEntry(data);
     grid.updateCounter(data.timestamp);
-}
+};
 
 const dataSubscription = Pubsub.subscribe( 'dataUpdated', gridUpdate );
 
