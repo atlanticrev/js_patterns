@@ -46,19 +46,19 @@ const truck = new Vehicle('truck');
 // Decoration property added
 truck.setModel = function (modelName) {
     this.model = modelName;
-}
+};
 
 // Decoration property added
 truck.setColor = function(color){
     this.color = color;
-}
+};
 
 truck.setModel('CAT');
 truck.setColor('blue');
 console.log(truck);
 
 /**
- * Decorators usage
+ * Example with functional decorators
  */
 class MacBook {
 
@@ -100,3 +100,125 @@ Insurance(mb);
 console.log(mb.cost()); //1522
 console.log(mb.screenSize()); //13.3
 
+/**
+ * Example with interfaces
+ */
+const Macbook = new Interface('Macbook', ['addEngraving', 'addParallels', 'add4GBRam', 'add8GBRam', 'addCase']);
+
+class MacbookPro {
+
+    constructor () {
+        // implements Macbook interface
+    }
+
+    addEngraving () {}
+
+    addParallels () {}
+
+    add4GBRam () {}
+
+    add8GBRam () {}
+
+    addCase () {}
+
+    getPrice () {
+        return 900.00; // base price.
+    }
+
+}
+
+class MacbookDecorator {
+
+    constructor (macbook) {
+        // Interface.ensureImplements(macbook, Macbook);
+        this.macbook = macbook;
+    }
+
+    addEngraving () {
+        return this.macbook.addEngraving();
+    }
+
+    addParallels () {
+        return this.macbook.addParallels();
+    }
+
+    add4GBRam () {
+        return this.macbook.add4GBRam();
+    }
+
+    add8GBRam () {
+        return this.macbook.add8GBRam();
+    }
+
+    addCase () {
+        return this.macbook.addCase();
+    }
+
+    getPrice () {
+        return this.macbook.getPrice();
+    }
+
+}
+
+class CaseDecorator extends MacbookDecorator {
+
+    constructor (macBook) {
+        super(macBook);
+    }
+
+    addCase () {
+        return this.macbook.addCase() + " Adding case to macbook ";
+    };
+
+    getPrice () {
+        return this.macbook.getPrice() + 45.00;
+    };
+
+}
+
+// Instantiation of the macbook
+const myMacbookPro = new MacbookPro();
+
+// This will return 900.00
+console.log(myMacbookPro.getPrice());
+
+// Decorate the macbook
+myMacbookProDecorator = new CaseDecorator(myMacbookPro);
+
+// This will return 945.00
+console.log(myMacbookPro.getPrice());
+
+/**
+ * Example with native Object.assign
+ */
+let decoratorApp = decoratorApp || {};
+
+decoratorApp = {
+    defaults: {
+        validate: false,
+        limit: 5,
+        name: "foo",
+        welcome: function () {
+            //console.log('welcome!');
+        }
+    },
+    options: {
+        validate: true,
+        name: "bar",
+        helloWorld: function () {
+            //console.log('hello');
+        }
+    },
+    settings: {},
+    printObj: function (obj) {
+        const arr = [];
+        for (let key of Object.keys(obj)) {
+            const next = `${key}: ${Object.getPrototypeOf(obj[key]) === Object.prototype ? this.printObj(obj[key]) : obj[key]}`;
+            arr.push(next);
+        }
+        return `{ ${arr.join(', ')} }`;
+    }
+};
+
+// Decoration
+decoratorApp.settings = Object.assign({}, decoratorApp.defaults, decoratorApp.options);
